@@ -7,6 +7,7 @@ import { HiBars3CenterLeft } from "react-icons/hi2";
 import ToggleSidebar from "../sidebar";
 import { useSidebar } from "@/providers/sidebar-provider";
 import { useAppSelector } from "@/hooks/redux-hooks";
+import useComponents from "saqib-test-lib";
 interface ICategories {
   name: string;
   slug: string;
@@ -14,13 +15,14 @@ interface ICategories {
 }
 
 const Navbar = () => {
-  const { openSidebar } = useSidebar();
+  const { openSidebar, closeSidebar, openSidebarId } = useSidebar();
+  const { Sidebar } = useComponents();
   const { items } = useAppSelector((s) => s.cart);
 
   return (
     <>
       <div className="flex justify-between bg-primary px-10 py-6 border-b-[#ff00f] border-[1px]">
-        <div className="flex md:hidden">
+        <div className=" md:hidden">
           <HiBars3CenterLeft
             size={30}
             onClick={() => openSidebar("sidebar1")}
@@ -46,7 +48,20 @@ const Navbar = () => {
         </div>
       </div>
       <div className="md:hidden">
-        <ToggleSidebar id="sidebar1" width="100%" position="left">
+        <Sidebar
+          bgcolor="#aaa000"
+          // @ts-ignore
+          openSidebarId={openSidebarId}
+          id="sidebar1"
+          width="100%"
+          position="left"
+        >
+          <div className="flex items-center justify-between flex-row-reverse">
+            <div className="cursor-pointer text-black" onClick={closeSidebar}>
+              Close
+            </div>
+            <p>Mango</p>
+          </div>
           <div className="flex flex-col mt-10 gap-5 font-Raleway font-medium">
             {NAV_CATEGORIES.map((el, i) => (
               <Link
@@ -58,7 +73,7 @@ const Navbar = () => {
               </Link>
             ))}
           </div>
-        </ToggleSidebar>
+        </Sidebar>
       </div>
     </>
   );

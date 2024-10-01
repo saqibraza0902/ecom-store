@@ -9,9 +9,11 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import Link from "next/link";
 import { useMediaQuery } from "react-responsive";
+import useComponents from "saqib-test-lib";
 
 const SubCategoryNav = ({ data }: any) => {
-  const { openSidebar } = useSidebar();
+  const { openSidebar, openSidebarId, closeSidebar } = useSidebar();
+  const { Sidebar } = useComponents();
   const searchParams = useSearchParams();
   const param = useParams();
   const router = useRouter(); // Use router for URL manipulation
@@ -95,7 +97,7 @@ const SubCategoryNav = ({ data }: any) => {
   return (
     <>
       <div className="px-10 py-4 flex justify-between items-center bg-primary">
-        <div className="flex lg:hidden">
+        <div className=" lg:hidden">
           <Dropdown buttonLabel="Categories">
             <div className="flex flex-col gap-2 px-2">
               <span
@@ -153,7 +155,20 @@ const SubCategoryNav = ({ data }: any) => {
           <span>Sort & Filter</span>
         </div>
       </div>
-      <ToggleSidebar id="sidebar2" width={sidebarWidth} position="right">
+      <Sidebar
+        bgcolor="#aaa000"
+        // @ts-ignore
+        openSidebarId={openSidebarId}
+        id="sidebar2"
+        width={sidebarWidth}
+        position="right"
+      >
+        <div className="flex items-center justify-between flex-row-reverse">
+          <p>Mango</p>
+          <div className="cursor-pointer text-black" onClick={closeSidebar}>
+            Close
+          </div>
+        </div>
         <div>
           <p className="font-Raleway font-medium text-center mt-2 py-2 border-b-[1px] border-black">
             Filter & Sort
@@ -243,7 +258,7 @@ const SubCategoryNav = ({ data }: any) => {
             </button>
           </div>
         </div>
-      </ToggleSidebar>
+      </Sidebar>
     </>
   );
 };
