@@ -12,8 +12,9 @@ import { useMediaQuery } from "react-responsive";
 import useComponents from "saqib-test-lib";
 
 const SubCategoryNav = ({ data }: any) => {
+  console.log(data);
   const { openSidebar, openSidebarId, closeSidebar } = useSidebar();
-  const { Sidebar } = useComponents();
+  const { Sidebar, Navbar } = useComponents();
   const searchParams = useSearchParams();
   const param = useParams();
   const router = useRouter(); // Use router for URL manipulation
@@ -94,10 +95,44 @@ const SubCategoryNav = ({ data }: any) => {
   const isMd = useMediaQuery({ query: "(max-width: 768px)" });
   const isLg = useMediaQuery({ query: "(max-width: 1024px)" });
   const sidebarWidth = isMd ? "100%" : isLg ? "30%" : "25%";
+  const convertedArray = [
+    {
+      title: "List Title",
+      array: [
+        {
+          title: "All",
+          isLink: false,
+          handleClick: () => handleTypeClick(""),
+        },
+        ...data.map((item: string) => ({
+          title: item,
+          isLink: false,
+          handleClick: () => handleTypeClick(item),
+        })),
+      ],
+    },
+    {
+      title: "Other Item",
+      array: [
+        {
+          title: "Sort & filter",
+          isLink: false,
+          handleClick: () => openSidebar("sidebar2"),
+        },
+      ],
+    },
+  ];
   return (
     <>
-      <div className="px-10 py-4 flex justify-between items-center bg-primary">
-        <div className=" lg:hidden">
+      <div className="hidden lg:block">
+        <Navbar
+          param={searchParams.get("type") || ""}
+          Link={Link}
+          list={convertedArray}
+        />
+      </div>
+      <div className="px-10 py-4 flex lg:hidden justify-between items-center bg-primary">
+        <div className="">
           <Dropdown buttonLabel="Categories">
             <div className="flex flex-col gap-2 px-2">
               <span
@@ -124,34 +159,7 @@ const SubCategoryNav = ({ data }: any) => {
             </div>
           </Dropdown>
         </div>
-        <div className="hidden lg:flex gap-5">
-          <span
-            onClick={() => handleTypeClick("")}
-            className={`cursor-pointer ${
-              !searchParams.get("type") ? "text-blue-500 font-bold" : ""
-            }`}
-          >
-            All
-          </span>
-          {data?.map((el: string, i: number) => (
-            <div key={i} onClick={() => handleTypeClick(el)}>
-              <span
-                className={`cursor-pointer capitalize ${
-                  searchParams.get("type") === el
-                    ? "text-blue-500 font-bold"
-                    : ""
-                }`}
-              >
-                {el}
-              </span>
-            </div>
-          ))}
-        </div>
-        <div
-          onClick={() => openSidebar("sidebar2")}
-          className="flex cursor-pointer items-center gap-1"
-        >
-          <CiFilter />
+        <div>
           <span>Sort & Filter</span>
         </div>
       </div>

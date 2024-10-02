@@ -14,39 +14,95 @@ interface ICategories {
   url: string;
 }
 
+const ArrayB = [
+  {
+    title: "Categories",
+    array: [
+      {
+        title: "All",
+        path: "/beauty",
+      },
+      {
+        title: "Fragrances",
+        path: "/beauty",
+      },
+      {
+        title: "Perfumes",
+        path: "/beauty",
+      },
+    ],
+  },
+  {
+    title: "Logo",
+    array: [
+      {
+        title: "Sort & Filter",
+        path: "/",
+      },
+    ],
+  },
+];
 const Navbar = () => {
   const { openSidebar, closeSidebar, openSidebarId } = useSidebar();
-  const { Sidebar } = useComponents();
+  const { Sidebar, Navbar } = useComponents();
   const { items } = useAppSelector((s) => s.cart);
-
+  const Array = [
+    {
+      title: "Categories",
+      array: [
+        {
+          title: "Beauty",
+          path: "/categories/beauty",
+          isLink: true,
+        },
+        {
+          title: "Fragrances",
+          path: "/categories/fragrances",
+          isLink: true,
+        },
+        {
+          title: "Furniture",
+          path: "/categories/beauty",
+          isLink: true,
+        },
+      ],
+    },
+    {
+      title: "Logo",
+      array: [
+        {
+          title: "Mango",
+          path: "/",
+          isLink: true,
+        },
+      ],
+    },
+    {
+      title: "Other Links",
+      array: [
+        {
+          title: "Search",
+          isLink: false,
+          handleClick: () => console.log("object"),
+        },
+        {
+          title: `Cart(${items.length})`,
+          path: "/cart",
+          isLink: true,
+        },
+      ],
+    },
+  ];
   return (
     <>
-      <div className="flex justify-between bg-primary px-10 py-6 border-b-[#ff00f] border-[1px]">
-        <div className=" md:hidden">
-          <HiBars3CenterLeft
-            size={30}
-            onClick={() => openSidebar("sidebar1")}
-          />
-        </div>
-        <div className="space-x-5 font-Raleway font-medium hidden md:flex">
-          {NAV_CATEGORIES.map((el, i) => (
-            <Link
-              href={`${URLS.CATEGORIES}/${el.slug}`}
-              className=" cursor-pointer"
-              key={i}
-            >
-              {el.name}
-            </Link>
-          ))}
-        </div>
-        <div>MANGO</div>
-        <div className="space-x-5 flex font-Raleway font-medium">
-          <span className="cursor-pointer hidden md:flex">Search</span>
-          <Link href={URLS.CART} className="cursor-pointer">
-            Cart({items.length})
-          </Link>
-        </div>
+      <div className="hidden md:block">
+        <Navbar Link={Link} list={Array} />
       </div>
+
+      <div className="px-10 py-6 md:hidden">
+        <HiBars3CenterLeft size={30} onClick={() => openSidebar("sidebar1")} />
+      </div>
+
       <div className="md:hidden">
         <Sidebar
           bgcolor="#aaa000"

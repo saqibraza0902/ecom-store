@@ -3,8 +3,12 @@ import CommonLayout from "@/layouts";
 import React from "react";
 import CheckoutSummery from "./checkout-summery";
 import CheckoutForm from "./checkout-form";
-
+import useComponents from "saqib-test-lib";
+import { useAppSelector } from "@/hooks/redux-hooks";
 const Checkout = () => {
+  const { CheckoutSummery } = useComponents();
+  const { items } = useAppSelector((s) => s.cart);
+  const num = "10.00";
   return (
     <CommonLayout>
       <div className="min-h-screen flex justify-center bg-gray-50 mx-10">
@@ -16,7 +20,7 @@ const Checkout = () => {
             <CheckoutForm />
           </div>
           <div className="lg:col-span-5 bg-primary p-6 ">
-            <CheckoutSummery />
+            <CheckoutSummery delivery={Number(num)} items={items} />
           </div>
         </div>
       </div>
